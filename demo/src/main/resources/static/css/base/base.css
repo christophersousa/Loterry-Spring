@@ -2,10 +2,10 @@ body {
     background: #2d2d7f !important;
   }
   /* main-header start */
-  [data-target="#mainMenu"] {
-    position: relative;
-    z-index: 999;
-  }
+[data-target="#mainMenu"] {
+  position: relative;
+  z-index: 999;
+}
 
   #mainMenu li > a {
     font-size: 12px;
@@ -91,7 +91,7 @@ body {
     color: #fff;
   }
   .main-header .navbar-brand img {
-    max-width: 40px;
+    max-width: 100px;
     animation: fadeInLeft 0.4s both 0.4s;
   }
   /* main-header end */

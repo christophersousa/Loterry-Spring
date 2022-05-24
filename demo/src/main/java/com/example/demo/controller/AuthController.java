@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import com.example.demo.model.Cliente;
 import com.example.demo.repository.ClienteRepository;
+import com.example.demo.util.PasswordUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,9 @@ public class AuthController {
         Cliente clienteBD =  clienteRepository.findByUsername(cliente.getUsername());
         boolean valido = false;
         if (clienteBD != null) {
-            valido = true;
+            if (PasswordUtil.checkPass(cliente.getSenha(), clienteBD.getSenha())) {
+                valido = true;
+            }
         }
         return valido ? clienteBD : null;
     }

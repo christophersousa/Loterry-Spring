@@ -40,10 +40,11 @@
             <input type="text" th:field="*{cpf}" id="cpf" class="fadeIn second" name="cpf" placeholder="CPF">
             <div th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" th:errorclass="error-message" />
 
-            <input type="text" th:field="*{senha}" id="password" class="fadeIn third" name="login" placeholder="Senha">
+            <input type="password" th:field="*{senha}" id="password" class="fadeIn third" name="login" placeholder="Senha">
             <div th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" th:errorclass="error-message" />
 
-            <input type="text" id="confirmPassword" class="fadeIn second" name="confirmPassword"  placeholder="Confirmar a senha">
+            <input type="password" id="confirmPassword" class="fadeIn second" name="confirmPassword"  placeholder="Confirmar a senha">
+            <span style="display: none;" class="error-message"></span>
 
             <input type="submit" id="registerCliente" class="fadeIn fourth" value="Register">
           </form>
@@ -55,5 +56,7 @@
 
         </div>
       </div>
+
+      <script th:src="@{script/autentication/register.js}"></script>
 </body>
 </html>

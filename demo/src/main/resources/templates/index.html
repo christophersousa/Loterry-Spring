@@ -1,6 +1,8 @@
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:insert="~{layout/layout}" th:with="titulo='Home'">
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/base :: headfiles(home)}">
+</head>
 <body>
-    <h1>Hello, world!</h1>
-    <div>Teste</div>
+    <div th:replace="~{fragments/base :: navmenu}">Menu</div>
 </body>
 </html>

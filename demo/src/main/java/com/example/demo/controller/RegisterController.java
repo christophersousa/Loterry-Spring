@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import com.example.demo.model.Cliente;
 import com.example.demo.repository.ClienteRepository;
+import com.example.demo.util.PasswordUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,13 +33,10 @@ public class RegisterController {
     @Transactional
     public ModelAndView save(@Valid Cliente cliente, BindingResult validation, ModelAndView mav,
             RedirectAttributes attr) {
-        System.out.println("Metodo salvar");
-        System.out.println(cliente.toString());
-        System.out.println(validation);
 
         if (!validation.hasErrors()) {
+            cliente.setSenha(PasswordUtil.hashPassword(cliente.getSenha()));
             clienteRepository.save(cliente);
-            System.out.println("Cliente salvo");
             mav.setViewName("redirect:/auth");
             attr.addFlashAttribute("mensagem", cliente.getNome() + " cadastrada(o) com sucesso!");
             attr.addFlashAttribute("pessoa", cliente);
