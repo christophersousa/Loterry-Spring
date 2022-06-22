@@ -4,8 +4,10 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import com.example.demo.model.Cliente;
-import com.example.demo.repository.ClienteRepository;
-import com.example.demo.util.PasswordUtil;
+import com.example.demo.model.User;
+// import com.example.demo.repository.ClienteRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,30 +22,34 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class RegisterController {
 
     @Autowired
-    ClienteRepository clienteRepository;
+    UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView login(ModelAndView modelAndView){
+    public ModelAndView login(ModelAndView modelAndView) {
         modelAndView.setViewName("auth/register");
-        modelAndView.addObject("cliente", new Cliente());
+        modelAndView.addObject("cliente", new User());
         return modelAndView;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @Transactional
-    public ModelAndView save(@Valid Cliente cliente, BindingResult validation, ModelAndView mav,
+    public ModelAndView save(@Valid User cliente, BindingResult validation, ModelAndView mav,
             RedirectAttributes attr) {
-
+        System.out.println(cliente);
+        System.out.println(validation);
+        System.out.println(validation.hasErrors());
         if (!validation.hasErrors()) {
-            cliente.setSenha(PasswordUtil.hashPassword(cliente.getSenha()));
-            clienteRepository.save(cliente);
+            userService.saveUser(cliente);
             mav.setViewName("redirect:/auth");
-            attr.addFlashAttribute("mensagem", cliente.getNome() + " cadastrada(o) com sucesso!");
+            attr.addFlashAttribute("mensagem", cliente.getUsername() + " cadastrada(o) com sucesso!");
             attr.addFlashAttribute("pessoa", cliente);
         } else {
             System.out.println("Cliente não foi salvo");
             mav.addObject("mensagem", "Erros de validação! Corrija-os e tente novamente.");
-            mav.setViewName("redirect:/auth");
+            mav.setViewName("redirect:/register");
         }
         return mav;
     }

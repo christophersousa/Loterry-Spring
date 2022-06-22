@@ -1,59 +1,156 @@
-<head th:fragment="headfiles(titulo)">
+<head th:fragment="headfiles(titulo, links)">
 
   <!--  Meta  -->
   <meta charset="UTF-8" />
   <title th:text="'Loterry - ' + ${titulo}"></title>
   <meta charset="utf-8">
   <!--  Styles  -->
-  <link rel="stylesheet" th:href="@{/css/base/base.css}">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!--Script-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="css/card-aposta.css" rel="stylesheet">
+
+  <th:block th:replace="${links}" />
 
 </head>
 
-<header class="main-header" th:fragment="navmenu">
-  <div class="container">
-    <nav class="navbar navbar-expand-lg main-nav px-0">
-      <a class="navbar-brand" href="**">
-        <img th:src="@{/asserts/logo.png}" alt="rajeshdas.com">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
-                      <span class="icon-bar icon-bar-1"></span>
-                      <span class="icon-bar icon-bar-2"></span>
-                      <span class="icon-bar icon-bar-3"></span>
-                  </button>
-      <div class="collapse navbar-collapse" id="mainMenu">
-        <ul class="navbar-nav ml-auto text-uppercase f1">
-          <li>
-            <a href="#home" class="active active-first">home</a>
-          </li>
-          <li>
-            <a href="#about">about us</a>
-          </li>
-          <li>
-            <a href="#service">services</a>
-          </li>
-          <li>
-            <a href="#project">projects</a>
-          </li>
-          <li>
-            <a href="#team">team</a>
-          </li>
-          <li>
-            <a href="#testimony">testimonils</a>
-          </li>
-          <li>
-            <a href="#contact">contact</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </div>
-  <!-- /.container -->
-</header>
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" th:fragment="navmenu">
 
+  <!-- Sidebar - Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fa fa-solid fa-dollar-sign"></i>
+      </div>
+      <div class="sidebar-brand-text mx-3">Loterry</div>
+  </a>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item active">
+      <a class="nav-link" th:classappend="${menu == 'home'} ? 'active'" th:href="@{/home}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+  <div sec:authorize="hasRole('USER')">
+    <div class="sidebar-heading">
+        Loteria
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+
+    <li class="nav-item">
+        <a class="nav-link" th:classappend="${menu == 'aposta'} ? 'active'" th:href="@{/aposta}">
+            <i class="fa fa-solid fa-coins"></i>
+            <span>Apostar</span></a>
+    </li>
+  </div>
+
+  <!-- Heading -->
+  <div sec:authorize="hasRole('ADMIN')">
+    <div class="sidebar-heading">
+        Jogos
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+
+    <li class="nav-item">
+        <a class="nav-link" th:classappend="${menu == 'jogo'} ? 'active'" th:href="@{/jogo/register}">
+            <i class="fa fa-solid fa-coins"></i>
+            <span>Jogos</span></a>
+    </li>
+
+ </div>
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+    <div sec:authorize="hasRole('USER')">
+        <div class="sidebar-heading">
+            Resultados
+        </div>
+
+        <!-- Nav Item - Tables -->
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${menu == 'minhas_apostas'} ? 'active'" th:href="@{/aposta/minhas_apostas}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Lista a aposta</span></a>
+        </li>
+    </div>
+
+  <!-- Heading -->
+    <div sec:authorize="hasRole('ADMIN')">
+        <div class="sidebar-heading">
+            Lista
+        </div>
+
+        <!-- Nav Item - Tables -->
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${menu == 'Lista_jogo'} ? 'active'" th:href="@{/jogo}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Lista dos proximos jogos</span></a>
+        </li>
+    </div>
+
+  <!-- Nav Item - Charts -->
+    <div sec:authorize="hasRole('USER')">
+        <li class="nav-item">
+            <a class="nav-link">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Indices de resultado</span></a>
+        </li>
+    </div>
+
+</ul>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true" th:fragment="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pronto para sair ?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Selecione a opção "Sair" para finalizar a sua sessão</div>
+            <form th:action="@{auth/logout}" method="POST" class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" type="submit">Sair</button>
+            </form >
+        </div>
+    </div>
+</div>
+
+<div th:fragment="scripts">
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+</div>
 
 

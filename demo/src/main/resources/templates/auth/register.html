@@ -1,62 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
+
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <!--BootStrap-->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>SB Admin 2 - Register</title>
 
-    <link rel="stylesheet" th:href="@{/css/autentication/login.css}">
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
-    <title>Login</title>
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
-<body>
-    <div class="wrapper fadeInDown">
-        <div id="formContent">
-          <!-- Tabs Titles -->
 
-          <!-- Icon -->
-          <div class="fadeIn first">
-            <img th:src="@{/asserts/logo.png}" id="icon" alt="User Icon" />
-          </div>
+<body class="bg-gradient-primary">
 
-          <!-- Login Form -->
-          <form class="form register" th:action="@{/register}" method="POST" th:object="${cliente}">
+    <div class="container d-flex align-items-center justify-content-center vh-100">
 
-            <input type="text" th:field="*{nome}" id="Nome" class="fadeIn second" name="nome" placeholder="Nome completo">
-            <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" th:errorclass="error-message" />
+        <div class="card o-hidden border-0 shadow-lg my-5 w-100">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Cadastre-se</h1>
+                            </div>
+                            <div th:if="${not #strings.isEmpty(mensagem)}"
+                                        th:utext="${mensagem} +'<button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;><span aria-hidden=&quot;true&quot;>&times;</span></button>'"
+                                        class="alert alert-danger alert-dismissible fade show" role="alert">
+                            </div>
+                            <form class="user" th:action="@{/register}" method="POST" th:object="${cliente}">
 
-            <input type="text" th:field="*{username}" id="login" class="fadeIn second" name="username" placeholder="Nome de usuário">
-            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" th:errorclass="error-message" />
+                                <div class="form-group row">
+                                  <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control form-control-user" id="exampleInputNome"
+                                    placeholder="Nome" th:field="*{nome}" name="nome">
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                            placeholder="Nome de usuário" th:field="*{username}" name="username" >
 
-            <input type="string" th:field="*{dataNascimento}" id="dataNascimento" class="fadeIn second" name="dataNascimento" placeholder="Data de nascimento">
-            <div th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}" th:errorclass="error-message" />
+                                  </div>
+                              </div>
+                                <div class="form-group row">
 
-            <input type="text" th:field="*{cpf}" id="cpf" class="fadeIn second" name="cpf" placeholder="CPF">
-            <div th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" th:errorclass="error-message" />
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                      <input type="text"
+                                            class="form-control form-control-user"
+                                            id="exampleLastName"
+                                            placeholder="Data de nascimento"
+                                            th:field="*{dataNascimento}"
+                                            name="dataNascimento">
+                                        <div th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}" th:errorclass="error-message" />
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
+                                        placeholder="CPF" th:field="*{cpf}" name="cpf">
+                                        <div th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" th:errorclass="error-message" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                                        placeholder="Email" th:field="*{email}" name="email">
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="exampleInputPassword" placeholder="Senha" th:field="*{passwords}" name="senha">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="exampleRepeatPassword" placeholder="Confirme a senha">
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-user btn-block">
+                                    Cadastrar
+                                </button>
+                            </form>
+                            <hr>
 
-            <input type="password" th:field="*{senha}" id="password" class="fadeIn third" name="login" placeholder="Senha">
-            <div th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" th:errorclass="error-message" />
-
-            <input type="password" id="confirmPassword" class="fadeIn second" name="confirmPassword"  placeholder="Confirmar a senha">
-            <span style="display: none;" class="error-message"></span>
-
-            <input type="submit" id="registerCliente" class="fadeIn fourth" value="Register">
-          </form>
-
-          <!-- Remind Passowrd -->
-          <div id="formFooter">
-            <a class="underlineHover" th:href="@{/auth}">Log In</a>
-          </div>
-
+                            <div class="text-center">
+                                <a class="small" th:href="@{/auth}">Já tem uma conta? Faça login!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <script th:src="@{script/autentication/register.js}"></script>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
 </body>
+
 </html>

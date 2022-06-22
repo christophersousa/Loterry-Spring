@@ -1,0 +1,62 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}"
+    th:with="titulo='Aposta'">
+
+<body>
+    <div layout:fragment="content">
+        <h1 class="h3 mb-4 text-gray-800 text-center">Nova Aposta</h1>
+        <div th:if="${not #strings.isEmpty(mensagem)}"
+            th:utext="${mensagem} +'<button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;><span aria-hidden=&quot;true&quot;>&times;</span></button>'"
+            class="alert alert-danger alert-dismissible fade show" role="alert">
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <!-- Inicio do Card -->
+                <form class="card shadow mb-4 card-novaaposta mx-auto" th:action="@{/aposta}" method="POST" th:object="${apostas}">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary text-center">Selecione os Numeros da Cartela</h6>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="d-flex flex-column align-items-center justify-content-center">
+                            <div class="col-md-6 d-flex justify-content-center">
+                                <img class="imagem-novaaposta img-fluid" alt="dinheiro"
+                                    src="https://image.freepik.com/free-vector/abstract-illustration-stock-exchange-data_23-2148604352.jpg">
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center justify-content-center">
+
+                                <div class="cartela ml-3">
+
+                                    <div class="numbers_tiket">
+                                        <div th:each="i : ${#numbers.sequence(1, 60)}"
+                                            class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+                                                th:value="${i}" name="n-${n}" th:field="*{numeros[__${i}__]}">
+                                            <label class="form-check-label" for="inlineCheckbox1"
+                                                th:text="${i}">01</label>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-primary btn-icon-split btn-lg mt-3 mb-3">
+                            <span class="icon text-white-50 d-flex align-items-center">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text">Salvar Aposta</span>
+                        </button>
+                    </div>
+                </form>
+                <!-- / Fim do Card-->
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,11 +1,12 @@
-package com.example.demo.repository;
+// package com.example.demo.repository;
 
-import com.example.demo.model.Cliente;
+// import com.example.demo.model.Cliente;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+// import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
-    public Cliente findByUsername(String username);
-}
+// @Repository
+// public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
+// Cliente findByUsername(String username);
+
+// }
