@@ -1,0 +1,51 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}" th:with="titulo='Cadastrar Jogo'">
+<body>
+    <div layout:fragment="content">
+        <h1 class="h3 mb-4 text-gray-800 text-center">Novo Jogo</h1>
+        <div th:if="${not #strings.isEmpty(mensagem)}"
+            th:utext="${mensagem} +'<button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;><span aria-hidden=&quot;true&quot;>&times;</span></button>'"
+            class="alert alert-danger alert-dismissible fade show" role="alert">
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <form class="card shadow mb-4 card-novaaposta mx-auto" th:action="@{/jogo}" method="POST" th:object="${sorteio}">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary text-center">Adicione os números do sorteio</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center justify-content-center">
+                            <div class="col-md-6 d-flex align-items-center justify-content-center">
+
+                                <div class="cartela ml-3">
+
+                                    <div class="numbers_tiket">
+                                        <div th:each="i : ${#numbers.sequence(1, 6)}"
+                                            class="form-check-c form-check-inline">
+                                            <input class="form-check-input-c mr-0" type="text" id="inlineCheckbox1"
+                                                th:value="${i}" name="n-${n}" th:field="*{numerosSorteio[__${i}__]}">
+                                            <label class="form-check-label" for="inlineCheckbox1"
+                                                th:text="${i}">01</label>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-primary btn-icon-split btn-lg mt-3 mb-3">
+                            <span class="icon text-white-50 d-flex align-items-center">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text">Cadastrar Jogo</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

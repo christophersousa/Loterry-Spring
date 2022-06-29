@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -30,20 +33,25 @@ import lombok.ToString;
 @Entity
 public class Cliente {
 
-    // Dados Pessoais
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_cliente;
+    private Integer id;
 
-    @NotEmpty(message = "O campo nome é obrigatório!")
-    private String username;
+    @Transient
+    @NotEmpty(message = "O campo username é obrigatório!")
+    private String login;
 
+    @Transient
     @NotNull(message = "O campo data de nascimento é obrigató")
     @Size(min = 5, max = 18, message = "A senha deve conter")
     private String password;
 
     @NotEmpty(message = "O campo nome é obrigatório!")
     private String nome;
+
+    @NotBlank(message = "Campo obrigatório!")
+    @Email
+    private String email;
 
     @Past(message = "O campo data de nascimento deve ser passado!")
     @NotNull(message = "O campo data de nascimento é obrigató")
@@ -58,4 +66,9 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Aposta> apostas;
+
+    @OneToOne
+    @JoinColumn(name = "username")
+    private User user;
+
 }

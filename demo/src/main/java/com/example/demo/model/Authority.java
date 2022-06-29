@@ -37,7 +37,6 @@ public class Authority {
     public static class AuthorityId implements Serializable {
         private String username;
         private String authority;
-
     }
 
 }

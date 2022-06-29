@@ -2,8 +2,6 @@ package com.example.demo.controller;
 
 import javax.servlet.http.HttpSession;
 
-import com.example.demo.model.Cliente;
-// import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.util.PasswordUtil;
 
@@ -24,7 +22,6 @@ public class AuthController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView login(ModelAndView modelAndView) {
         modelAndView.setViewName("auth/login");
-        modelAndView.addObject("cliente", new Cliente());
         return modelAndView;
     }
 

@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
@@ -29,17 +29,20 @@ public class Aposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
+
+    @ManyToOne()
+    @JoinColumn(name = "id_sorteio")
+    private Sorteio sorteio;
 
     @NumberFormat(pattern = "###,##0.00")
     @NotNull(message = "O valor do premio do jogo é obrigatório")
     @DecimalMin(value = "6", message = "Valor mínimo é 6reais")
     private BigDecimal aposta;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @NotNull
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<String> numeros;
 
 }
