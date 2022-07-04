@@ -12,8 +12,8 @@
       rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
-  <link href="css/card-aposta.css" rel="stylesheet">
+  <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+  <link th:href="@{css/card-aposta.css}" rel="stylesheet">
 
   <th:block th:replace="${links}" />
 
@@ -97,9 +97,28 @@
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" th:classappend="${menu == 'Lista_jogo'} ? 'active'" th:href="@{/jogo}">
+            <a class="nav-link" th:classappend="${menu == 'Lista_jogo'} ? 'active'" th:href="@{/jogo/lista}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Lista dos proximos jogos</span></a>
+        </li>
+    </div>
+
+    <div sec:authorize="hasRole('ADMIN')">
+        <div class="sidebar-heading">
+            User
+        </div>
+
+        <!-- Nav Item - Tables -->
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${menu == 'cadastrar_user'} ? 'active'" th:href="@{/admin/cadastrar}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Cadastrar usuário</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${menu == 'listar_user'} ? 'active'" th:href="@{/admin/lista}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>lista de usuário</span></a>
         </li>
     </div>
 
@@ -144,6 +163,7 @@ aria-hidden="true" th:fragment="modal">
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script src="js/main.js"></script>
 
     <!-- Page level plugins -->
     <script src="vendor/chart.js/Chart.min.js"></script>

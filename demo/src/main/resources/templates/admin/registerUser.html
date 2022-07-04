@@ -1,0 +1,64 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}" th:with="titulo='Cadastrar Usuario'">
+<body>
+    <div layout:fragment="content">
+        <h1 class="h3 mb-4 text-gray-800 text-center">Cadastrar novo usuário</h1>
+        <div th:if="${not #strings.isEmpty(mensagem)}"
+            th:utext="${mensagem} +'<button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;><span aria-hidden=&quot;true&quot;>&times;</span></button>'"
+            class="alert alert-danger alert-dismissible fade show" role="alert">
+        </div>
+
+        <div class="card-body">
+            <div class="col-12">
+                <form class="user" th:action="@{/register}" method="POST" th:object="${cliente}">
+
+                    <div class="form-group row">
+                      <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" class="form-control form-control-user" id="exampleInputNome"
+                        placeholder="Nome" th:field="*{nome}" name="nome">
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                placeholder="Nome de usuário" th:field="*{login}" name="username" >
+
+                      </div>
+                  </div>
+                    <div class="form-group row">
+
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                          <input type="text"
+                                class="form-control form-control-user"
+                                id="exampleLastName"
+                                placeholder="Data de nascimento"
+                                th:field="*{dataNascimento}"
+                                name="dataNascimento">
+                            <div th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}" th:errorclass="error-message" />
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control form-control-user" id="exampleLastName"
+                            placeholder="CPF" th:field="*{cpf}" name="cpf">
+                            <div th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" th:errorclass="error-message" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-user" id="exampleInputEmail"
+                            placeholder="Email" name="email" th:field="*{email}">
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <input type="password" class="form-control form-control-user"
+                                id="exampleInputPassword" placeholder="Senha" th:field="*{password}" name="senha">
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="password" class="form-control form-control-user"
+                                id="exampleRepeatPassword" placeholder="Confirme a senha">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-user btn-block">
+                        Cadastrar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

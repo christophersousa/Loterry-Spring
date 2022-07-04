@@ -49,6 +49,7 @@ public class SorteioController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String getNewGame(Model m) {
+
         m.addAttribute("menu", "Jogo");
         m.addAttribute("sorteio", new Sorteio());
         return "sorteio/register";
@@ -56,9 +57,9 @@ public class SorteioController {
 
     @RequestMapping("/lista")
     public String getJogos(Model m) {
-        this.cliente = clienteService.buscarCliente();
+
         m.addAttribute("menu", "Lista_jogo");
-        System.out.println(this.cliente);
+        m.addAttribute("sorteios", sorteioService.getSorteios());
         return "sorteio/list";
     }
 
@@ -67,8 +68,7 @@ public class SorteioController {
             RedirectAttributes redirectAttts) {
         try {
             this.cliente = clienteService.buscarCliente();
-            System.out.println(this.cliente);
-            sorteioService.saveSorteio(sorteio, "cris");
+            sorteioService.saveSorteio(sorteio, this.cliente);
             redirectAttts.addFlashAttribute("mensagem", "Jogo cadastrada com sucesso");
             modelAndView.setViewName("redirect:/jogo");
         } catch (Exception e) {

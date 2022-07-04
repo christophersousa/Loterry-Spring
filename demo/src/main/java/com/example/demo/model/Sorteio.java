@@ -43,9 +43,9 @@ public class Sorteio {
     @DecimalMin(value = "500", message = "Valor mínimo é 6reais")
     private BigDecimal premio;
 
-    @NotNull(message = "O campo data do Soteio é obrigató")
-    @Future
     private Date data;
+
+    private Boolean enabled;
 
     @ElementCollection(fetch = FetchType.LAZY)
     private List<String> numerosSorteio;

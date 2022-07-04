@@ -22,8 +22,8 @@
                                     <div class="numbers_tiket">
                                         <div th:each="i : ${#numbers.sequence(1, 6)}"
                                             class="form-check-c form-check-inline">
-                                            <input class="form-check-input-c mr-0" type="text" id="inlineCheckbox1"
-                                                th:value="${i}" name="n-${n}" th:field="*{numerosSorteio[__${i}__]}">
+                                            <input class="form-check-input-c mr-0" type="text" th:id="'n' + ${i}"
+                                                th:value="${i}" name="n-${i}" th:field="*{numerosSorteio[__${i}__]}">
                                             <label class="form-check-label" for="inlineCheckbox1"
                                                 th:text="${i}">01</label>
                                         </div>
@@ -33,6 +33,16 @@
                                 </div>
 
                             </div>
+
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" id="exampleLastName"
+                                placeholder="Valor" th:field="*{premio}" name="Valor">
+                                <div th:if="${#fields.hasErrors('premio')}" th:errors="*{premio}" th:errorclass="error-message" />
+                            </div>
+
+                            <butto class="btn btn-secondary btn-icon-split btn-lg mt-3 mb-3" id="number-random">
+                                <span class="text">Números aleatórios</span>
+                            </button>
                         </div>
                     </div>
                     <div class="card-footer text-center">

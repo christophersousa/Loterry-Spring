@@ -1,0 +1,40 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}" th:with="titulo='Saldo'">
+<body>
+    <div layout:fragment="content">
+        <h1 class="h3 mb-4 text-gray-800 text-center">Saldo</h1>
+        <div th:if="${not #strings.isEmpty(mensagem)}"
+            th:utext="${mensagem} +'<button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;><span aria-hidden=&quot;true&quot;>&times;</span></button>'"
+            class="alert alert-danger alert-dismissible fade show" role="alert">
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <form class="card shadow mb-4 card-novaaposta mx-auto" th:action="@{/user}" method="POST" th:object="${user}">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary text-center">Adicione o valor do seu saldo</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center justify-content-center">
+
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user"
+                                    id="exampleInputPassword" placeholder="Saldo"
+                                    name="saldo" th:field="*{saldo}">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-primary btn-icon-split btn-lg mt-3 mb-3">
+                            <span class="icon text-white-50 d-flex align-items-center">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text">Cadastrar Jogo</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

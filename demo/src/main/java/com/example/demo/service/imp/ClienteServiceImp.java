@@ -66,7 +66,11 @@ public class ClienteServiceImp implements ClienteService {
         User user = createUsers(cliente);
         createAuthorities(user);
         cliente.setUser(user);
+        return clienteRepository.save(cliente);
+    }
 
+    public Cliente updateUser(Cliente cliente) {
+        // Encode plaintext password
         return clienteRepository.save(cliente);
     }
 

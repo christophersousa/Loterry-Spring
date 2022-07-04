@@ -1,0 +1,41 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}" th:with="titulo='Listar Usuário'">
+<body>
+    <div layout:fragment="content">
+        <h1 class="h3 mb-4 text-gray-800 text-center">Lista de usuário</h1>
+        <div th:if="${not #strings.isEmpty(mensagem)}"
+            th:utext="${mensagem} +'<button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;><span aria-hidden=&quot;true&quot;>&times;</span></button>'"
+            class="alert alert-danger alert-dismissible fade show" role="alert">
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Tabela de usuários</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Data de nascimento</th>
+                                <th>Cpf</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="currentClient, stat : ${clientes}">
+                                <td th:text="${currentClient.getNome()}">Tiger Nixon</td>
+                                <td th:text="${currentClient.getEmail()}">2011/04/25</td>
+                                <td th:text="${currentClient.getDataNascimento()}">System Architect</td>
+                                <td th:text="${currentClient.getCpf()}">Edinburgh</td>
+                                <td th:text="${currentClient.getSaldo()}">$320,800</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
