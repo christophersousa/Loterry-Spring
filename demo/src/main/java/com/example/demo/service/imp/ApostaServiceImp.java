@@ -1,27 +1,33 @@
 package com.example.demo.service.imp;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Aposta;
+import com.example.demo.model.Cliente;
 import com.example.demo.repository.ApostaRepository;
-import com.example.demo.repository.ClienteRepository;
-import com.example.demo.repository.SorteioRepository;
 import com.example.demo.service.ApostaService;
+import com.example.demo.service.ClienteService;
+import com.example.demo.service.SorteioService;
 
 @Service
 public class ApostaServiceImp implements ApostaService {
 
-    private final ClienteRepository clienteRepository;
+    private final ClienteService clienteService;
 
     private final ApostaRepository apostaRepository;
 
+    private final SorteioService sorteioService;
+
     @Autowired
-    public ApostaServiceImp(ApostaRepository apostaRepository, ClienteRepository clienteRepository) {
+    public ApostaServiceImp(ApostaRepository apostaRepository, ClienteService clienteService,
+            SorteioService sorteioService) {
         this.apostaRepository = apostaRepository;
-        this.clienteRepository = clienteRepository;
+        this.clienteService = clienteService;
+        this.sorteioService = sorteioService;
     }
 
     private void validationNumber(Integer value) throws Exception {
@@ -35,18 +41,43 @@ public class ApostaServiceImp implements ApostaService {
     private List<String> numbersAposta(List<String> numbers) {
         while (numbers.remove(null))
             ;
-        System.out.println(numbers.size());
         numbers.remove(0);
 
         return numbers;
     }
 
+    private BigDecimal valor(Integer value, Cliente cliente) throws Exception {
+        BigDecimal result = new BigDecimal(0);
+
+        if (value == 6) {
+            result = result.valueOf(3.00);
+        } else if (value == 7) {
+            result = result.valueOf(15.00);
+        } else if (value == 8) {
+            result = result.valueOf(90.00);
+        } else if (value == 9) {
+            result = result.valueOf(300.00);
+        } else {
+            result = result.valueOf(1200.00);
+        }
+
+        try {
+            System.out.println(clienteService.debitarCliente(cliente.getUser().getUsername(), result));
+        } catch (Exception e) {
+            throw e;
+        }
+        return result;
+    }
+
     @Override
-    public Aposta saveAposta(Aposta aposta) throws Exception {
+    public Aposta saveAposta(Aposta aposta, Cliente cliente) throws Exception {
         try {
             aposta.setNumeros(numbersAposta(aposta.getNumeros()));
 
             validationNumber(aposta.getNumeros().size());
+            aposta.setSorteio(sorteioService.SorteioEnabled().get(0));
+            aposta.setAposta(valor(aposta.getNumeros().size(), cliente));
+            aposta.setCliente(cliente);
 
             apostaRepository.save(aposta);
 

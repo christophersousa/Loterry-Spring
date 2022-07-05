@@ -38,8 +38,7 @@ public class Aposta {
     private Sorteio sorteio;
 
     @NumberFormat(pattern = "###,##0.00")
-    @NotNull(message = "O valor do premio do jogo é obrigatório")
-    @DecimalMin(value = "6", message = "Valor mínimo é 6reais")
+    @DecimalMin(value = "3", message = "Valor mínimo é 6reais")
     private BigDecimal aposta;
 
     @ElementCollection(fetch = FetchType.LAZY)

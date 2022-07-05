@@ -2,6 +2,7 @@ package com.example.demo.service.imp;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,15 @@ public class SorteioServiceImp implements SorteioService {
         return numbers;
     }
 
-    private void validacaoSorteio() throws Exception {
+    public List<Sorteio> SorteioEnabled() throws Exception {
+        List<Sorteio> sorteioEnable = sorteioRepository.findByEnableTrue();
+        if (sorteioEnable.isEmpty()) {
+            throw new Exception("Não há jogo no momento, tente novamente mais tarde");
+        }
+        return sorteioEnable;
+    }
+
+    private void validationSorteio() throws Exception {
         List<Sorteio> sorteioEnable = sorteioRepository.findByEnableTrue();
         System.out.println(sorteioEnable);
         if (!sorteioEnable.isEmpty()) {
@@ -56,7 +65,7 @@ public class SorteioServiceImp implements SorteioService {
             sorteio.setNumerosSorteio(numbersSorteio(sorteio.getNumerosSorteio()));
 
             validationNumber(sorteio.getNumerosSorteio().size());
-            validacaoSorteio();
+            validationSorteio();
 
             sorteio.setCliente(cliente);
             sorteio.setData(date);

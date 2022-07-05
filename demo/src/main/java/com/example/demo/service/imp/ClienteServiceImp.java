@@ -71,6 +71,10 @@ public class ClienteServiceImp implements ClienteService {
 
     public Cliente updateUser(Cliente cliente) {
         // Encode plaintext password
+        System.out.println("repo: " + cliente);
+        cliente.setLogin(cliente.getUser().getUsername());
+        ;
+        cliente.setPassword(cliente.getUser().getPassword());
         return clienteRepository.save(cliente);
     }
 
@@ -84,11 +88,12 @@ public class ClienteServiceImp implements ClienteService {
         Cliente cliente = this.getUsername(username);
         BigDecimal saldo = cliente.getSaldo().subtract(value);
 
-        if (!saldo.equals(BigDecimal.ZERO)) {
+        if (saldo.equals(BigDecimal.ZERO)) {
             throw new Exception("Saldo não é suficiente!!");
         }
 
         cliente.setSaldo(saldo);
+        updateUser(cliente);
         return cliente;
     }
 
@@ -98,7 +103,6 @@ public class ClienteServiceImp implements ClienteService {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             String username = auth.getName();
             cliente = this.getUsername(username);
-            System.out.println("user: " + cliente);
 
         }
         return cliente;

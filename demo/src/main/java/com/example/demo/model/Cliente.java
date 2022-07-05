@@ -43,7 +43,6 @@ public class Cliente {
 
     @Transient
     @NotNull(message = "O campo data de nascimento é obrigató")
-    @Size(min = 5, max = 18, message = "A senha deve conter")
     private String password;
 
     @NotEmpty(message = "O campo nome é obrigatório!")

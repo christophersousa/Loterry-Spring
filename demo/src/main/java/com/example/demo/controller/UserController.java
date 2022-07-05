@@ -1,13 +1,13 @@
 package com.example.demo.controller;
 
-import javax.validation.Valid;
+import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,23 +27,25 @@ public class UserController {
     public String getListLoteria(Model m) {
         this.cliente = clienteService.buscarCliente();
         m.addAttribute("menu", "saldo");
-        m.addAttribute("user", this.cliente);
+        m.addAttribute("cliente", this.cliente);
         return "user/index";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView save(@Valid Cliente cliente, BindingResult validation, ModelAndView mav,
+    public ModelAndView save(@RequestParam(name = "saldo") BigDecimal saldo, ModelAndView mav,
             RedirectAttributes attr) {
-        if (!validation.hasErrors()) {
-            System.out.println(cliente);
+        if (saldo != null) {
+            this.cliente = clienteService.buscarCliente();
+            this.cliente.setSaldo(saldo);
+
             clienteService.updateUser(cliente);
-            mav.setViewName("redirect:/auth");
+            mav.setViewName("redirect:/home");
             attr.addFlashAttribute("mensagem", cliente.getNome() + " cadastrada(o) com sucesso!");
             attr.addFlashAttribute("pessoa", cliente);
         } else {
             System.out.println("Cliente não foi salvo");
             mav.addObject("mensagem", "Erros de validação! Corrija-os e tente novamente.");
-            mav.setViewName("redirect:/home");
+            mav.setViewName("redirect:/user/saldo");
         }
         return mav;
     }

@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.Aposta;
 import com.example.demo.model.Cliente;
-import com.example.demo.repository.ApostaRepository;
+import com.example.demo.service.ApostaService;
 import com.example.demo.service.imp.ClienteServiceImp;
 
 @Controller
@@ -21,7 +21,7 @@ import com.example.demo.service.imp.ClienteServiceImp;
 public class LoteriaController {
 
     @Autowired
-    ApostaRepository serviceAposta;
+    ApostaService serviceAposta;
 
     @Autowired
     ClienteServiceImp clienteService;
@@ -47,7 +47,8 @@ public class LoteriaController {
     public ModelAndView addAposta(@Valid Aposta aposta, HttpSession session, ModelAndView modelAndView,
             RedirectAttributes redirectAttts) {
         try {
-            serviceAposta.save(aposta);
+            this.cliente = clienteService.buscarCliente();
+            serviceAposta.saveAposta(aposta, cliente);
             redirectAttts.addFlashAttribute("mensagem", "Aposta cadastrada com sucesso");
             modelAndView.setViewName("redirect:/aposta");
         } catch (Exception e) {
