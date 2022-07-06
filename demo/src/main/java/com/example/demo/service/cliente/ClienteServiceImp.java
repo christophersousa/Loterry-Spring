@@ -1,6 +1,7 @@
-package com.example.demo.service.imp;
+package com.example.demo.service.cliente;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -9,27 +10,29 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.Aposta;
 import com.example.demo.model.Authority;
 import com.example.demo.model.Authority.AuthorityId;
 import com.example.demo.model.Cliente;
 import com.example.demo.model.User;
 import com.example.demo.repository.AuthorityRepository;
-import com.example.demo.repository.ClienteRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ClienteService;
+import com.example.demo.service.cliente.proxy.ClienteCacheProxy;
+import com.example.demo.service.cliente.proxy.ProxyService;
 
 @Service
 public class ClienteServiceImp implements ClienteService {
     private final UserRepository userRepository;
     private final AuthorityRepository AuthorityRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ClienteRepository clienteRepository;
+    private final ProxyService clienteRepository;
 
     private static final String USER_ROLE = "ROLE_USER";
 
     @Autowired
     public ClienteServiceImp(UserRepository userRepository, AuthorityRepository AuthorityRepository,
-            PasswordEncoder passwordEncoder, ClienteRepository clienteRepository) {
+            PasswordEncoder passwordEncoder, ProxyService clienteRepository) {
         this.userRepository = userRepository;
         this.AuthorityRepository = AuthorityRepository;
         this.passwordEncoder = passwordEncoder;
@@ -97,6 +100,20 @@ public class ClienteServiceImp implements ClienteService {
         return cliente;
     }
 
+    @Override
+    public Cliente creditarCliente(String username, BigDecimal value) throws Exception {
+        Cliente cliente = this.getUsername(username);
+        BigDecimal saldo = cliente.getSaldo().add(value);
+
+        if (saldo.equals(BigDecimal.ZERO)) {
+            throw new Exception("Ocorreu um erro");
+        }
+
+        cliente.setSaldo(saldo);
+        updateUser(cliente);
+        return cliente;
+    }
+
     public Cliente buscarCliente() {
         Cliente cliente = new Cliente();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -106,6 +123,10 @@ public class ClienteServiceImp implements ClienteService {
 
         }
         return cliente;
+    }
+
+    public List<Aposta> getMinhasApostas(Cliente cliente) {
+        return clienteRepository.findByApostas(cliente);
     }
 
 }

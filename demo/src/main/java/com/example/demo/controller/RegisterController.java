@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.Cliente;
-import com.example.demo.service.imp.ClienteServiceImp;
+import com.example.demo.service.cliente.ClienteServiceImp;
 
 @Controller
 @RequestMapping("/register")

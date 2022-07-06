@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.Cliente;
-import com.example.demo.service.imp.ClienteServiceImp;
+import com.example.demo.service.cliente.ClienteServiceImp;
 
 @Controller
 @RequestMapping("/user")
@@ -26,6 +26,7 @@ public class UserController {
     @RequestMapping("/saldo")
     public String getListLoteria(Model m) {
         this.cliente = clienteService.buscarCliente();
+        System.out.println("******* Usuario *****" + cliente);
         m.addAttribute("menu", "saldo");
         m.addAttribute("cliente", this.cliente);
         return "user/index";
@@ -34,9 +35,17 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView save(@RequestParam(name = "saldo") BigDecimal saldo, ModelAndView mav,
             RedirectAttributes attr) {
+
         if (saldo != null) {
             this.cliente = clienteService.buscarCliente();
-            this.cliente.setSaldo(saldo);
+
+            if (this.cliente.getSaldo() == null) {
+                this.cliente.setSaldo(saldo);
+            } else {
+                this.cliente.setSaldo(saldo.add(this.cliente.getSaldo()));
+            }
+
+            System.out.println("******* Usuario *****" + cliente);
 
             clienteService.updateUser(cliente);
             mav.setViewName("redirect:/home");

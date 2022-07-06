@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,8 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.Cliente;
 import com.example.demo.model.Sorteio;
-import com.example.demo.service.imp.ClienteServiceImp;
-import com.example.demo.service.imp.SorteioServiceImp;
+import com.example.demo.service.cliente.ClienteServiceImp;
+import com.example.demo.service.sorteio.SorteioServiceImp;
 
 @Controller
 @RequestMapping("jogo")
@@ -68,6 +69,20 @@ public class SorteioController {
         } catch (Exception e) {
             redirectAttts.addFlashAttribute("mensagem", e.getMessage());
             modelAndView.setViewName("redirect:/jogo");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ModelAndView requestMethodName(@PathVariable(value = "id") Integer id, ModelAndView modelAndView,
+            RedirectAttributes redirectAttts) {
+        try {
+            sorteioService.liberarSorteio(id);
+            redirectAttts.addFlashAttribute("mensagem", "Sorteio liberado com sucesso");
+            modelAndView.setViewName("redirect:/jogo/lista");
+        } catch (Exception e) {
+            redirectAttts.addFlashAttribute("mensagem", e.getMessage());
+            modelAndView.setViewName("redirect:/jogo/lista");
         }
         return modelAndView;
     }

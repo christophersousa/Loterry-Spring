@@ -21,6 +21,8 @@
                                 <th>Premio</th>
                                 <th>Data</th>
                                 <th>Status</th>
+                                <th>Números</th>
+                                <th>Liberar sorteio</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,7 +30,9 @@
                                 <td th:text="${currentSorteio.getId()}">Tiger Nixon</td>
                                 <td th:text="${currentSorteio.getPremio()}">2011/04/25</td>
                                 <td th:text="${currentSorteio.getData()}">System Architect</td>
+                                <td th:text="${currentSorteio.getNumerosSorteio()}"></td>
                                 <td th:text="${currentSorteio.getEnabled()} ? 'Em andamento' : 'Já sorteado'">Edinburgh</td>
+                                <td > <a th:href="@{/jogo/{id}(id=${currentSorteio.getId()})}">liberar</a></td>
                             </tr>
                         </tbody>
                     </table>

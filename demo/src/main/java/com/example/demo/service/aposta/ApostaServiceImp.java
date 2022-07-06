@@ -1,4 +1,4 @@
-package com.example.demo.service.imp;
+package com.example.demo.service.aposta;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -8,22 +8,23 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Aposta;
 import com.example.demo.model.Cliente;
-import com.example.demo.repository.ApostaRepository;
+import com.example.demo.model.Sorteio;
 import com.example.demo.service.ApostaService;
 import com.example.demo.service.ClienteService;
 import com.example.demo.service.SorteioService;
+import com.example.demo.service.aposta.proxy.ProxyServiceAposta;
 
 @Service
 public class ApostaServiceImp implements ApostaService {
 
     private final ClienteService clienteService;
 
-    private final ApostaRepository apostaRepository;
+    private final ProxyServiceAposta apostaRepository;
 
     private final SorteioService sorteioService;
 
     @Autowired
-    public ApostaServiceImp(ApostaRepository apostaRepository, ClienteService clienteService,
+    public ApostaServiceImp(ProxyServiceAposta apostaRepository, ClienteService clienteService,
             SorteioService sorteioService) {
         this.apostaRepository = apostaRepository;
         this.clienteService = clienteService;
@@ -85,6 +86,15 @@ public class ApostaServiceImp implements ApostaService {
             throw e;
         }
         return aposta;
+    }
+
+    public List<Aposta> getMinhasApostas(Cliente cliente) {
+        return apostaRepository.findAllByAposta(cliente.getUser().getUsername());
+    }
+
+    public List<Aposta> findAllBySorteio(Sorteio sorteio) {
+        return apostaRepository.findAllBySorteio(sorteio);
+
     }
 
 }

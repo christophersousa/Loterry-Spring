@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.demo.service.imp.ClienteServiceImp;
+import com.example.demo.service.cliente.ClienteServiceImp;
 
 @Controller
 public class HomeController {

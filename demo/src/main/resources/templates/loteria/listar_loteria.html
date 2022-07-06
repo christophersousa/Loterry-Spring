@@ -1,7 +1,46 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}" th:with="titulo='Minhas Apostas'">
 <body>
     <div layout:fragment="content">
-        <h1>Hello</h1>
+        <h1 class="h3 mb-4 text-gray-800 text-center">Lista de sorteios</h1>
+        <div th:if="${not #strings.isEmpty(mensagem)}"
+            th:utext="${mensagem} +'<button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;><span aria-hidden=&quot;true&quot;>&times;</span></button>'"
+            class="alert alert-danger alert-dismissible fade show" role="alert">
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Tabela de sorteios</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Usuário</th>
+                                <th>Id da aposta</th>
+                                <th>Id sorteio</th>
+                                <th>Valor da aposta</th>
+                                <th>Números</th>
+                                <th>Valor do prêmio</th>
+                                <th>Resultado</th>
+                                <th>Valor recebido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="currentApostas, stat : ${apostas}">
+                                <td th:text="${currentApostas.getCliente().getUser().getUsername()}"></td>
+                                <td th:text="${currentApostas.getId()}">Tiger Nixon</td>
+                                <td th:text="${currentApostas.getSorteio().getId()}">2011/04/25</td>
+                                <td th:text="${currentApostas.getAposta()}">System Architect</td>
+                                <td th:text="${currentApostas.getNumeros()}">Edinburgh</td>
+                                <td th:text="${currentApostas.getSorteio().getPremio()}"></td>
+                                <td th:text="${currentApostas.getStatus()}? 'Premiado': 'Não Premiado'"></td>
+                                <td th:text="${currentApostas.getPremio}?: '0'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

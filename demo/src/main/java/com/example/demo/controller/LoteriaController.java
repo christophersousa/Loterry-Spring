@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.model.Aposta;
 import com.example.demo.model.Cliente;
 import com.example.demo.service.ApostaService;
-import com.example.demo.service.imp.ClienteServiceImp;
+import com.example.demo.service.cliente.ClienteServiceImp;
 
 @Controller
 @RequestMapping("aposta")
@@ -30,7 +30,9 @@ public class LoteriaController {
 
     @RequestMapping("/minhas_apostas")
     public String getListLoteria(Model m) {
+        this.cliente = clienteService.buscarCliente();
         m.addAttribute("menu", "apostas");
+        m.addAttribute("apostas", serviceAposta.getMinhasApostas(cliente));
         return "loteria/listar_loteria";
     }
 
