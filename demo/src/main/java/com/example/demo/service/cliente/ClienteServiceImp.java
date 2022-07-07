@@ -69,6 +69,7 @@ public class ClienteServiceImp implements ClienteService {
         User user = createUsers(cliente);
         createAuthorities(user);
         cliente.setUser(user);
+        cliente.setSaldo(new BigDecimal(0));
         return clienteRepository.save(cliente);
     }
 
@@ -89,13 +90,16 @@ public class ClienteServiceImp implements ClienteService {
     @Override
     public Cliente debitarCliente(String username, BigDecimal value) throws Exception {
         Cliente cliente = this.getUsername(username);
-        BigDecimal saldo = cliente.getSaldo().subtract(value);
+        BigDecimal saldo = cliente.getSaldo();
+        BigDecimal zero = new BigDecimal(0.00);
 
-        if (saldo.equals(BigDecimal.ZERO)) {
+
+        if (saldo.compareTo(zero) == 0) {
+            System.out.println("********  Erro****");
             throw new Exception("Saldo não é suficiente!!");
         }
 
-        cliente.setSaldo(saldo);
+        cliente.setSaldo(saldo.subtract(value));
         updateUser(cliente);
         return cliente;
     }

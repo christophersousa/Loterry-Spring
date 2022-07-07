@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,6 @@ public interface ApostaRepository extends JpaRepository<Aposta, Integer> {
     List<Aposta> findAllByAposta(@Param(value = "username") String username);
 
     List<Aposta> findAllBySorteio(Sorteio sorteio);
+
+    Optional<Aposta> findById(Integer id);
 }

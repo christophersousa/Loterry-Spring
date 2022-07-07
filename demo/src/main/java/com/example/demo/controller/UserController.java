@@ -26,7 +26,6 @@ public class UserController {
     @RequestMapping("/saldo")
     public String getListLoteria(Model m) {
         this.cliente = clienteService.buscarCliente();
-        System.out.println("******* Usuario *****" + cliente);
         m.addAttribute("menu", "saldo");
         m.addAttribute("cliente", this.cliente);
         return "user/index";
@@ -44,8 +43,6 @@ public class UserController {
             } else {
                 this.cliente.setSaldo(saldo.add(this.cliente.getSaldo()));
             }
-
-            System.out.println("******* Usuario *****" + cliente);
 
             clienteService.updateUser(cliente);
             mav.setViewName("redirect:/home");

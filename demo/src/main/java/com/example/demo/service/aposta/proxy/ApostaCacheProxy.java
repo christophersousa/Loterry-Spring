@@ -2,6 +2,7 @@ package com.example.demo.service.aposta.proxy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,11 @@ public class ApostaCacheProxy implements ProxyServiceAposta {
     @Override
     public Aposta save(Aposta aposta) {
         return apostaRepository.save(aposta);
+    }
+
+    @Override
+    public Optional<Aposta> findById(Integer id) {
+        return apostaRepository.findById(id);
     }
 
 }

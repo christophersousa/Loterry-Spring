@@ -48,4 +48,6 @@ public class Aposta {
 
     private Boolean status = false;
 
+    private Boolean favorito = false;
+
 }

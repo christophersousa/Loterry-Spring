@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -56,6 +57,34 @@ public class LoteriaController {
         } catch (Exception e) {
             redirectAttts.addFlashAttribute("mensagem", e.getMessage());
             modelAndView.setViewName("redirect:/aposta");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ModelAndView requestMethodName(@PathVariable(value = "id") Integer id, ModelAndView modelAndView,
+            RedirectAttributes redirectAttts) {
+        try {
+            serviceAposta.favoritar(id);
+            redirectAttts.addFlashAttribute("mensagem", "Aposta favoritada com sucesso");
+            modelAndView.setViewName("redirect:/aposta/minhas_apostas");
+        } catch (Exception e) {
+            redirectAttts.addFlashAttribute("mensagem", e.getMessage());
+            modelAndView.setViewName("redirect:/aposta/minhas_apostas");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/{id}/jogar_novamente", method = RequestMethod.GET)
+    public ModelAndView jogarNovamente(@PathVariable(value = "id") Integer id, ModelAndView modelAndView,
+            RedirectAttributes redirectAttts) {
+        try {
+            serviceAposta.JogarNovamente(id);
+            redirectAttts.addFlashAttribute("mensagem", "Novo jogo cadastrado com sucesso");
+            modelAndView.setViewName("redirect:/aposta/minhas_apostas");
+        } catch (Exception e) {
+            redirectAttts.addFlashAttribute("mensagem", e.getMessage());
+            modelAndView.setViewName("redirect:/aposta/minhas_apostas");
         }
         return modelAndView;
     }

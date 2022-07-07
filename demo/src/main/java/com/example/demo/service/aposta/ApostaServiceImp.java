@@ -1,7 +1,9 @@
 package com.example.demo.service.aposta;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,9 +65,10 @@ public class ApostaServiceImp implements ApostaService {
         }
 
         try {
-            System.out.println(clienteService.debitarCliente(cliente.getUser().getUsername(), result));
+            clienteService.debitarCliente(cliente.getUser().getUsername(), result);
         } catch (Exception e) {
-            throw e;
+            System.out.println("******* erro ******" + e.getMessage());
+            throw new Exception(e.getMessage());
         }
         return result;
     }
@@ -95,6 +98,50 @@ public class ApostaServiceImp implements ApostaService {
     public List<Aposta> findAllBySorteio(Sorteio sorteio) {
         return apostaRepository.findAllBySorteio(sorteio);
 
+    }
+
+    @Override
+    public Optional<Aposta> favoritar(Integer id) throws Exception {
+        Optional<Aposta> aposta = apostaRepository.findById(id);
+        if (!aposta.isPresent()) {
+            throw new Exception("Aposta não existe!");
+        }
+
+        Aposta apostaFav = aposta.get();
+        apostaFav.setFavorito(true);
+        apostaRepository.save(apostaFav);
+        return aposta;
+    }
+
+    @Override
+    public Optional<Aposta> JogarNovamente(Integer id) throws Exception {
+        Optional<Aposta> aposta = apostaRepository.findById(id);
+        if (!aposta.isPresent()) {
+            throw new Exception("Aposta não existe!");
+        }
+
+        try {
+            // Aposta apostaNova = aposta.get();
+            // apostaNova.setId(null);
+            // apostaNova.setStatus(false);
+            // apostaNova.setPremio(new BigDecimal(0));
+            // apostaNova.setFavorito(false);
+            // apostaNova.setSorteio(sorteioService.SorteioEnabled().get(0));
+            List<String> numeros = new ArrayList<String>();
+            numeros.addAll(aposta.get().getNumeros());
+            Aposta apostaNova = new Aposta();
+            apostaNova.setAposta(aposta.get().getAposta());
+            apostaNova.setNumeros(numeros);
+            apostaNova.setCliente(aposta.get().getCliente());
+            apostaNova.setSorteio(sorteioService.SorteioEnabled().get(0));
+            apostaRepository.save(apostaNova);
+            System.out.println("**************** Novo ********************************\n" + apostaNova);
+
+        } catch (Exception e) {
+            throw e;
+        }
+
+        return aposta;
     }
 
 }
