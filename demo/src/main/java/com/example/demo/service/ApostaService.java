@@ -10,6 +10,8 @@ import com.example.demo.model.Sorteio;
 public interface ApostaService {
     Aposta saveAposta(Aposta aposta, Cliente cliente) throws Exception;
 
+    Aposta updateAposta(Aposta aposta);
+
     List<Aposta> getMinhasApostas(Cliente cliente);
 
     List<Aposta> findAllBySorteio(Sorteio sorteio);

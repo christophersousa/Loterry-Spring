@@ -18,9 +18,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.NumberFormat;
+
+import com.example.demo.service.visitor.Visitor;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +32,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor()
 @Entity
-public class Cliente {
+public class Cliente extends Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,4 +71,8 @@ public class Cliente {
     @JoinColumn(name = "username")
     private User user;
 
+    @Override
+    public Cliente accept(Visitor visitor) {
+        return visitor.visit(this);
+    };
 }

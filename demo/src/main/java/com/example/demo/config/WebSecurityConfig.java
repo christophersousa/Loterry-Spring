@@ -62,9 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 auth.jdbcAuthentication()
                                 .dataSource(dataSource)
                                 .passwordEncoder(encoder)
-                // .withUser(userAdmin)
-                // .withUser(userCris)
-                ;
+                                .withUser(userAdmin)
+                                .withUser(userCris);
                 // auth.userDetailsService(userDetailsService)
                 // .passwordEncoder(encoder);
         }

@@ -15,6 +15,10 @@ public interface ClienteService {
 
     Cliente saveUser(Cliente cliente);
 
+    Cliente updateUser(Cliente cliente);
+
     List<Aposta> getMinhasApostas(Cliente cliente);
+
+    Cliente buscarCliente();
 
 }

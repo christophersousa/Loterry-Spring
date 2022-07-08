@@ -16,24 +16,26 @@ import com.example.demo.repository.ApostaRepository;
 import com.example.demo.service.ClienteService;
 import com.example.demo.service.SorteioService;
 import com.example.demo.service.sorteio.prox.ProxyServiceSorteio;
+import com.example.demo.service.visitor.CreditarVisitor;
+import com.example.demo.service.visitor.Visitor;
 
 @Service
 public class SorteioServiceImp implements SorteioService {
 
     private final ProxyServiceSorteio sorteioRepository;
 
-    private final ClienteService clienteService;
-
     private final ApostaRepository apostaRepository;
+
+    private final CreditarVisitor visitor;
 
     private final Date date = new Date();
 
     @Autowired
-    public SorteioServiceImp(ProxyServiceSorteio sorteioRepository, ClienteService clienteService,
-            ApostaRepository apostaRepository) {
+    public SorteioServiceImp(ProxyServiceSorteio sorteioRepository,
+            ApostaRepository apostaRepository, CreditarVisitor creditarVisitor) {
         this.sorteioRepository = sorteioRepository;
-        this.clienteService = clienteService;
         this.apostaRepository = apostaRepository;
+        this.visitor = creditarVisitor;
     }
 
     private void validationNumber(Integer value) throws Exception {
@@ -98,18 +100,8 @@ public class SorteioServiceImp implements SorteioService {
 
     private void creditarPremiados(BigDecimal valor, List<Aposta> premiados) throws Exception {
         BigDecimal premio = valor.divide(new BigDecimal(premiados.size()));
-
-        premiados.forEach(p -> {
-            try {
-                String cliente = p.getCliente().getUser().getUsername();
-                clienteService.creditarCliente(cliente, premio);
-                p.setPremio(premio);
-                p.setStatus(true);
-                apostaRepository.save(p);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        visitor.setPremio(premio);
+        visitor.getResult(premiados);
 
     }
 

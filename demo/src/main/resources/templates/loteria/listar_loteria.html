@@ -36,7 +36,7 @@
                                 <td th:text="${currentApostas.getNumeros()}">Edinburgh</td>
                                 <td th:text="${currentApostas.getSorteio().getPremio()}"></td>
                                 <td th:text="${currentApostas.getStatus()}? 'Premiado': 'Não Premiado'"></td>
-                                <td th:text="${currentApostas.getPremio}?: '0'"></td>
+                                <td th:text="${currentApostas.getValorPremio}?: '0'"></td>
                                 <td>
                                     <div class="form-check" >
                                         <input class="form-check-input" type="checkbox" th:checked="${currentApostas.getFavorito()}" id="defaultCheck1">
